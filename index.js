@@ -8,7 +8,7 @@ module.exports = (fixtures, filter = undefined) => {
   return {
     beforeEach(done) {
       const fullTitle = this.currentTest.fullTitle()
-      if (filter && !filter()) {
+      if (filter && !filter.call(this)) {
         return done()
       }
       const filename = sanitize(`${fullTitle}.json`)

@@ -12,7 +12,24 @@ describe('nock-back-mocha', () => {
       },
     }
     nockBackMocha.beforeEach.call(mochaContext, (err) => {
-      assert(typeof mochaContext.currentTest.nockDone === 'function', 'nockDone must be set by beforeEach')
+      assert(typeof mochaContext.currentTest.nockDone, 'function', 'nockDone must be set by beforeEach')
+      done(err)
+    })
+  })
+
+  it('runs only on filtered test', (done) => {
+    function filter() {
+      return false
+    }
+    const nockBackMocha = require('..')(path.resolve(__dirname, 'fixtures'), filter)
+    const mochaContext = {
+      currentTest: {
+        fullTitle() { return 'current test title' },
+      },
+    }
+
+    nockBackMocha.beforeEach.call(mochaContext, (err) => {
+      assert.equal(typeof mochaContext.currentTest.nockDone, 'undefined', 'nockDone must be set by beforeEach')
       done(err)
     })
   })
