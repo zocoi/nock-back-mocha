@@ -3,14 +3,11 @@
 const nock = require('nock')
 const sanitize = require('sanitize-filename')
 
-module.exports = (fixtures, filter = undefined) => {
+module.exports = (fixtures) => {
   const filenames = []
   return {
     beforeEach(done) {
       const fullTitle = this.currentTest.fullTitle()
-      if (filter && !filter.call(this)) {
-        return done()
-      }
       const filename = sanitize(`${fullTitle}.json`)
       // make sure we're not reusing the nock file
       if (filenames.indexOf(filename) !== -1) {
