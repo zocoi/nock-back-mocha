@@ -30,7 +30,9 @@ module.exports = (fixtures, filter = undefined) => {
       })
     },
     afterEach() {
-      this.currentTest.nockDone()
+      if (this.currentTest.nockDone) {
+        this.currentTest.nockDone()
+      }
     },
   }
 }
